@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 @RestController
@@ -24,6 +25,7 @@ public class UserController
 
     public UserController( @Autowired UserService userService )
     {
+
         this.userService = userService;
     }
 
@@ -35,7 +37,8 @@ public class UserController
     }
 
     @GetMapping( "/{id}" )
-    public User findById( @PathVariable String id )
+    public User findById( @PathVariable String id
+    )
     {
         return userService.findById( id );
     }
@@ -54,6 +57,7 @@ public class UserController
     }
 
     @DeleteMapping( "/{id}" )
+    @RolesAllowed( " ADMIN " )
     public ResponseEntity<Boolean> delete( @PathVariable String id )
     {
         return ResponseEntity.ok( userService.deleteById( id ) );
